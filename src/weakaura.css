@@ -1,0 +1,69 @@
+.skill {
+    position: absolute;
+    color: white;
+    font-size: 50px;
+    font-family: Verdana, sans-serif;
+    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-width: 2px;
+    z-index: 1;
+}
+
+.skill--small {
+    font-size: 40px;
+    z-index: 0;
+}
+
+.skill--1 {
+    top: 320px;
+    left: 628px;
+}
+
+.skill--2 {
+    top: 370px;
+    left: 700px;
+}
+
+.skill--3 {
+    top: 440px;
+    left: 725px;
+}
+
+.skill--4 {
+    top: 370px;
+    left: 555px;
+}
+
+.skill--5 {
+    top: 440px;
+    left: 530px;
+}
+
+.skill--6 {
+    top: 510px;
+    left: 555px;
+}
+
+.skill--7 {
+    top: 510px;
+    left: 700px;
+}
+
+.skill--a1 {
+    top: 335px;
+    left: 643px;
+}
+
+.skill--a2 {
+    top: 385px;
+    left: 715px;
+}
+
+.skill--a4 {
+    top: 385px;
+    left: 570px;
+}
+
+.skill--s6 {
+    top: 505px;
+    left: 525px;
+}
