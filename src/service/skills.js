@@ -1,12 +1,11 @@
-import * as paladinSkills from '../jobs/skills/paladin-skills';
 import * as samuraiSkills from '../jobs/skills/samurai-skills';
 import * as selectors from '../state/selectors';
+import {isComboStarter} from '../state/selectors';
 import * as store from '../state/store';
-import {KILO} from '../weakaura';
+import {BASE_GCD, KILO} from '../weakaura';
 import * as view from '../view/view';
 import * as samuraiPriority from '../jobs/priority/samurai-priority';
 import {contains} from './functional-helper';
-import {isComboStarter} from '../state/selectors';
 
 // TODO Split into skills update and init
 const JOB_SKILLS_MAP = {
@@ -124,7 +123,26 @@ const getPriority = () => JOB_PRIORITY_MAP[selectors.getJob()]();
 
 export const showSkills = () => {
     view.hideSkills(selectors.getSkills());
-    getPriority().forEach(skillId =>
-        view.showSkill(skillId, selectors.getSkillText(skillId))
-    );
+    getPriority()
+        .getNextSkills()
+        .forEach(skillId =>
+            view.showSkill(skillId, selectors.getSkillText(skillId))
+        );
+};
+
+export const onSkillUsage = skillId => {
+    const gcd = getPriority().getGCD();
+    if (selectors.triggersGCD(skillId) && selectors.isInstantCast(skillId)) {
+        view.renderProgressCircle(gcd, 0);
+    }
+};
+
+export const onStartsCasting = skillId => {
+    const gcd = getPriority().getGCD();
+    if (selectors.triggersGCD(skillId)) {
+        view.renderProgressCircle(
+            gcd,
+            (gcd / BASE_GCD) * selectors.getCastTime(skillId)
+        );
+    }
 };

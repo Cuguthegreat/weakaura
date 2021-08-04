@@ -6,6 +6,7 @@ import * as selectors from './state/selectors';
 import * as skills from './service/skills';
 
 export const KILO = 1000;
+export const BASE_GCD = 2.5 * KILO;
 
 window.addOverlayListener('onPlayerChangedEvent', e => {
     playerChange.onPlayerChanged(e);

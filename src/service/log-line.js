@@ -30,6 +30,7 @@ export const OnLogLine = e => {
 
     if (selectors.isPlayer(line[3]) && selectors.isSkill(skillId)) {
         if (type === '21' || type === '22') {
+            skills.onSkillUsage(skillId);
             skills.updateSkills(line[4], line[6], line[8]);
             if (skillId === selectors.getCastingId()) {
                 store.setCastingId(null);
@@ -37,6 +38,7 @@ export const OnLogLine = e => {
         }
 
         if (type === '20') {
+            skills.onStartsCasting(skillId);
             store.setCastingId(line[4]);
             skills.showSkills();
         }

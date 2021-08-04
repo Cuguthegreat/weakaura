@@ -13,6 +13,8 @@ export const isSkill = skillId =>
 
 export const getName = () => getState().name;
 
+export const getKenki = () => (isSamurai() ? getState().jobDetail.kenki : null);
+
 export const isPlayer = name => name && name === getState().name;
 
 export const getJobDetail = () => getState().jobDetail;
@@ -88,3 +90,11 @@ export const willTargetDieWithin = seconds =>
     getState().targetHp < seconds * getState().groupDps;
 
 export const getTargetId = () => getState().targetId;
+
+export const triggersGCD = skillId =>
+    getSkill(skillId) && getSkill(skillId).gcd;
+
+export const getCastTime = skillId =>
+    (getSkill(skillId) && getSkill(skillId).castTime) || 0;
+
+export const isInstantCast = skillId => getCastTime(skillId) === 0;

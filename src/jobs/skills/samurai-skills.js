@@ -4,6 +4,7 @@ const SAMURAI_SKILLS = {
         level: '1',
         text: '1',
         combos: ['1D37', '1D36', '1D38'],
+        gcd: true,
     },
     '1D37': {
         name: 'Shifu',
@@ -11,12 +12,15 @@ const SAMURAI_SKILLS = {
         text: '2',
         combos: ['1D3A'],
         buff: '513',
+        gcd: true,
     },
     '1D3A': {
         name: 'Kasha',
         level: '40',
-        text: '3',
+        text: '3⭰',
+        css: '3',
         combos: null,
+        gcd: true,
     },
     '1D36': {
         name: 'Jinpu',
@@ -24,18 +28,22 @@ const SAMURAI_SKILLS = {
         text: '4',
         combos: ['1D39'],
         buff: '512',
+        gcd: true,
     },
     '1D39': {
         name: 'Gekko',
         level: '1',
-        text: '5',
+        text: '5⭱',
+        css: '5',
         combos: null,
+        gcd: true,
     },
     '1D38': {
         name: 'Yukikaze',
         level: '50',
         text: '6',
         combos: null,
+        gcd: true,
     },
     '1D3B': {
         name: 'Fuga',
@@ -43,6 +51,7 @@ const SAMURAI_SKILLS = {
         text: 'a1',
         combos: ['1D3D', '1D3C'],
         isSmall: true,
+        gcd: true,
     },
     '1D3D': {
         name: 'Oka',
@@ -50,6 +59,7 @@ const SAMURAI_SKILLS = {
         text: 'a2',
         combos: null,
         isSmall: true,
+        gcd: true,
     },
     '1D3C': {
         name: 'Mangetsu',
@@ -81,6 +91,8 @@ const SAMURAI_SKILLS = {
         combos: null,
         isSmall: true,
         dot: 57,
+        castTime: 1800,
+        gcd: true,
     },
     '1D40': {
         name: 'Tenka Goken',
@@ -89,13 +101,24 @@ const SAMURAI_SKILLS = {
         css: '7',
         combos: null,
         isSmall: true,
+        castTime: 1800,
+        gcd: true,
     },
     '1D3F': {
         name: 'Midare Setsugekka',
         level: '30',
         text: '7',
         combos: null,
+        castTime: 1800,
+        gcd: true,
     },
+    '4CD' : {
+        name: 'Hissatsu: Kaiten',
+        level: 52,
+        text: 's7',
+        buff: '4cd',
+        isSmall: true
+    }
 };
 
 const SAMURAI_COMBO = {

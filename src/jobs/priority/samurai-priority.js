@@ -1,13 +1,36 @@
 import * as selectors from '../../state/selectors';
-import {KILO} from '../../weakaura';
-import {contains} from '../../service/functional-helper';
+import {BASE_GCD, KILO} from '../../weakaura';
+import {contains, containsAny} from '../../service/functional-helper';
 
-export const getSamuraiPriority = () => [
-    ...getSamuraiSkillPriority(),
-    ...getSamuraiUtility(),
-];
+export const getSamuraiPriority = () => ({
+    getGCD,
+    getNextSkills,
+});
 
-export const getSamuraiUtility = () => [
+const GCD_MODIFIER = 0.98;
+const TEN_PERCENT_MODIFIER = 0.9;
+const THIRTEEN_PERCENT_MODIFIER = 0.87;
+
+const getGCD = () =>
+    selectors.isBuffActive('513')
+        ? Math.round(BASE_GCD * GCD_MODIFIER * TEN_PERCENT_MODIFIER)
+        : Math.round(BASE_GCD * GCD_MODIFIER);
+
+const getNextSkills = () => {
+    let priority = [...getSamuraiSkillPriority(), ...getSamuraiUtility()];
+
+    if (
+        containsAny(['1D41', '1D40', '1D3F'], priority) &&
+        selectors.getKenki() >= 20 &&
+        !selectors.isBuffActive('4cd')
+    ) {
+        priority.push('4CD');
+    }
+
+    return priority;
+};
+
+const getSamuraiUtility = () => [
     ...(!isExecutingCombo() &&
     isFullyBuffed() &&
     !selectors.isOnCooldown('1D4B')
@@ -26,7 +49,7 @@ const isSenCast = () =>
 const isSenActive = id => (isSenCast() ? false : selectors.isSenActive(id));
 const getSens = () => (isSenCast() ? 0 : selectors.getSens());
 
-export const getSamuraiSkillPriority = () => {
+const getSamuraiSkillPriority = () => {
     const previousSkillId = selectors.getPreviousSkillId();
 
     if (contains(previousSkillId, ['1D3D', '1D3C']) && getSens() === 2) {
@@ -62,7 +85,7 @@ export const getSamuraiSkillPriority = () => {
         selectors.isBuffActive('513') &&
         selectors.isBuffActive('512') &&
         !selectors.isDotActive('1D41') &&
-        !selectors.willTargetDieWithin(30)
+        !selectors.willTargetDieWithin(42)
     ) {
         return ['1D41'];
     }

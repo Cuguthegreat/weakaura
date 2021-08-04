@@ -67,3 +67,14 @@
     top: 505px;
     left: 525px;
 }
+
+.skill--s7 {
+    top: 505px;
+    left: 670px;
+}
+
+#canvas {
+    top: 315px;
+    left: 490px;
+    position: absolute
+}
