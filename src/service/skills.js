@@ -24,33 +24,28 @@ const JOB_PRIORITY_MAP = {
     RDM: redMagePriority.getRedMagePriority,
 };
 
-const JOB_COMBOS_MAP = {
-    SAM: samuraiSkills.getSamuraiCombo,
-};
-
-const JOB_STACKS_MAP = {
-    SAM: samuraiSkills.getSamuraiStacks,
-};
-
 export const setSkillsForJob = newJob => {
-    const skills = JOB_SKILLS_MAP[newJob] && JOB_SKILLS_MAP[newJob]();
+    const skills =
+        JOB_SKILLS_MAP[newJob] &&
+        JOB_SKILLS_MAP[newJob]() &&
+        JOB_SKILLS_MAP[newJob]().skills;
 
     if (!skills) {
         return;
     }
 
-    const combosGetter = JOB_COMBOS_MAP[newJob];
-    const stacksGetter = JOB_STACKS_MAP[newJob];
+    const combos = JOB_SKILLS_MAP[newJob]().combo;
+    const stacks = JOB_SKILLS_MAP[newJob]().stacks;
 
     store.setSkills(skills);
 
-    if (combosGetter) {
-        store.setComboBreaker(combosGetter().comboBreaker);
-        store.setComboStarter(combosGetter().comboStarter);
+    if (combos) {
+        store.setComboBreaker(combos.comboBreaker);
+        store.setComboStarter(combos.comboStarter);
     }
 
-    if (stacksGetter) {
-        store.setStacks(stacksGetter());
+    if (stacks) {
+        store.setStacks(stacks);
     }
 
     for (let skillId in skills) {

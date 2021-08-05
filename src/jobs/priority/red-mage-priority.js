@@ -1,5 +1,6 @@
 import * as selectors from '../../state/selectors';
 import {BASE_GCD} from '../../weakaura';
+import {contains} from '../../service/functional-helper';
 
 export const getRedMagePriority = () => ({
     getGCD,
@@ -15,23 +16,37 @@ const getNextSkills = () => {
     const needsWhite = whiteMana <= blackMana && whiteMana < 80;
     const needsMana = needsBlack || needsWhite;
     const dualcast = canDualcast();
-    const aoe = includeMultiTarget();
+    const isAoE = includeMultiTarget();
+    const availableCombos = getAvailableCombos() || [];
+    const isCombo = availableCombos.length > 0;
+    const level = selectors.getLevel();
 
-    const singleTarget = !aoe ? [
+    const combos = [
+        ...pushIf(contains('1D68', availableCombos), '1D68'),
+        ...pushIf(contains('1D69', availableCombos), '1D69'),
+    ];
+
+    const singleTarget = [
         ...pushIf(!isBuffed() && needsMana, '1D4F'),
         ...pushIf(dualcast && needsBlack, '1D51'),
         ...pushIf(dualcast && needsWhite, '1D53'),
         ...pushIf(!dualcast && needsMana && isVerfireReady(), '1D56'),
         ...pushIf(!dualcast && needsMana && isVerstoneReady(), '1D57'),
         ...pushIf(!needsMana, '1D67'),
-    ] : [];
+    ];
 
-    const multiTarget = aoe ? [
+    const multiTarget = [
         ...pushIf(dualcast, '1D5B'),
         ...pushIf(!dualcast && needsMana, '408C'),
         ...pushIf(!dualcast && needsMana, '408D'),
         ...pushIf(!needsMana, '1D6A'),
-    ] : [];
+    ];
+
+    const globalCooldown = [
+        ...pushAllIf(isCombo, combos),
+        ...pushAllIf(!isCombo && !isAoE, singleTarget),
+        ...pushAllIf(!isCombo && isAoE, multiTarget),
+    ];
 
     const cooldowns = [
         ...pushIf(
@@ -42,12 +57,23 @@ const getNextSkills = () => {
             !selectors.isCasting() && !selectors.isOnCooldown('1D5D'),
             '1D5D'
         ),
+        ...pushIf(
+            !selectors.isCasting() && !selectors.isOnCooldown('1D5E'),
+            '1D5E'
+        ),
     ];
 
-    return [...singleTarget, ...multiTarget, ...cooldowns];
+    return [...globalCooldown, ...cooldowns].filter(
+        skillId => selectors.getSkill(skillId).level <= level
+    );
 };
 
+const pushAllIf = (condition, skillIds) => (condition ? skillIds : []);
+
 const pushIf = (condition, skillId) => (condition ? [skillId] : []);
+
+const getAvailableCombos = () =>
+    selectors.getPreviousSkill() && selectors.getPreviousSkill().combos;
 
 const includeMultiTarget = () => {
     const enemies = selectors.getEnemies();

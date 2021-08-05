@@ -112,13 +112,13 @@ const SAMURAI_SKILLS = {
         castTime: 1800,
         gcd: true,
     },
-    '4CD' : {
+    '4CD': {
         name: 'Hissatsu: Kaiten',
         level: 52,
         text: 's7',
         buff: '4cd',
-        isSmall: true
-    }
+        isSmall: true,
+    },
 };
 
 const SAMURAI_COMBO = {
@@ -141,6 +141,8 @@ const SAMURAI_COMBO = {
 // 1D4B
 const SAMURAI_STACKS = {'4d1': {current: 0, maximum: 3}};
 
-export const getSamuraiSkills = () => SAMURAI_SKILLS;
-export const getSamuraiCombo = () => SAMURAI_COMBO;
-export const getSamuraiStacks = () => SAMURAI_STACKS;
+export const getSamuraiSkills = () => ({
+    skills: SAMURAI_SKILLS,
+    combo: SAMURAI_COMBO,
+    stacks: SAMURAI_STACKS,
+});

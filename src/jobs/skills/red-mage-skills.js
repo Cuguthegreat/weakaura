@@ -75,6 +75,7 @@ const RED_MAGE_SKILLS = {
         text: 's1',
         combos: ['1D68'],
         isSmall: true,
+        css: '1',
     },
     '1D68': {
         name: 'Enchanted Zwerchhau',
@@ -82,12 +83,14 @@ const RED_MAGE_SKILLS = {
         text: 's2',
         combos: ['1D69'],
         isSmall: true,
+        css: '2',
     },
     '1D69': {
         name: 'Enchanted Redoublement',
         level: '50',
         text: 's3',
         isSmall: true,
+        css: '3',
     },
     '1D6A': {
         name: 'Enchanted Moulinet',
@@ -98,8 +101,9 @@ const RED_MAGE_SKILLS = {
     '1D5E': {
         name: 'Acceleration',
         level: '50',
-        text: '',
+        text: 's6',
         buff: ['4d6'],
+        isSmall: true,
     },
     '1D50': {
         name: 'Riposte',
@@ -125,4 +129,31 @@ const RED_MAGE_SKILLS = {
     },
 };
 
-export const getRedMageSkills = () => RED_MAGE_SKILLS;
+const RED_MAGE_COMBO = {
+    comboBreaker: [
+        '1D4F',
+        '1D51',
+        '1D56',
+        '1D53',
+        '1D57',
+        '1D5B',
+        '408C',
+        '408D',
+        '1D67',
+        '1D68',
+        '1D69',
+        '1D6A',
+        '1D50',
+        '1D58',
+        '1D5C',
+    ],
+    comboStarter: ['1D67'],
+};
+
+const RED_MAGE_STACKS = {};
+
+export const getRedMageSkills = () => ({
+    skills: RED_MAGE_SKILLS,
+    combo: RED_MAGE_COMBO,
+    stacks: RED_MAGE_STACKS,
+});

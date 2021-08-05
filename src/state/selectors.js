@@ -13,6 +13,8 @@ export const isSkill = skillId =>
 
 export const getName = () => getState().name;
 
+export const getLevel = () => getState().level;
+
 export const getKenki = () => (isSamurai() ? getState().jobDetail.kenki : null);
 
 export const isPlayer = name => name && name === getState().name;
