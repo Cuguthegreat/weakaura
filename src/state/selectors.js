@@ -35,10 +35,10 @@ export const getPreviousSkill = () => {
 export const getComboStarter = () => getState().comboStarter;
 
 export const isComboStarter = skillId =>
-    contains(skillId, getState().comboStarter);
+    getState().comboStarter && contains(skillId, getState().comboStarter);
 
 export const isComboBreaker = skillId =>
-    contains(skillId, getState().comboBreaker);
+    getState().comboBreaker && contains(skillId, getState().comboBreaker);
 
 export const getSkillText = skillId =>
     (getSkills()[skillId] && getSkills()[skillId].text) || null;
@@ -84,6 +84,8 @@ const SKILL_SEN_MAP = {
 
 export const getCastingId = () => getState().castingId;
 
+export const isCasting = () => getState().castingId !== null;
+
 export const isOnCooldown = skillId => contains(skillId, getState().onCooldown);
 
 export const willTargetDieWithin = seconds =>
@@ -98,3 +100,7 @@ export const getCastTime = skillId =>
     (getSkill(skillId) && getSkill(skillId).castTime) || 0;
 
 export const isInstantCast = skillId => getCastTime(skillId) === 0;
+
+export const isEnemy = id => contains(id, Object.keys(getState().enemies));
+
+export const getEnemies = () => getState().enemies;

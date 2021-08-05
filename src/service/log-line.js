@@ -2,7 +2,7 @@ import * as selectors from '../state/selectors';
 import * as store from '../state/store';
 import * as skills from '../service/skills';
 
-export const OnLogLine = e => {
+export const onLogLine = e => {
     const line = e.line;
     const type = line[0];
 
@@ -46,6 +46,21 @@ export const OnLogLine = e => {
         if (type === '23') {
             store.setCastingId(null);
             skills.showSkills();
+        }
+    }
+
+    const targetId = line[6];
+    const targetCurrentHp = line[24];
+    if (selectors.isEnemy(targetId)) {
+        if (targetCurrentHp > 0) {
+            store.updateEnemy(targetId, {
+                id: targetId,
+                x: line[40],
+                y: line[41],
+                z: line[42],
+            });
+        } else {
+            store.removeEnemy(targetId);
         }
     }
 };

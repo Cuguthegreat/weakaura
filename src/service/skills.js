@@ -1,19 +1,27 @@
 import * as samuraiSkills from '../jobs/skills/samurai-skills';
 import * as selectors from '../state/selectors';
-import {isComboStarter} from '../state/selectors';
 import * as store from '../state/store';
 import {BASE_GCD, KILO} from '../weakaura';
 import * as view from '../view/view';
 import * as samuraiPriority from '../jobs/priority/samurai-priority';
 import {contains} from './functional-helper';
+import * as redMageSkill from '../jobs/skills/red-mage-skills';
+import * as redMagePriority from '../jobs/priority/red-mage-priority';
+
+const EMPTY_PRIORITY = {
+    getNextSkills: () => [],
+    getGCD: () => BASE_GCD,
+};
 
 // TODO Split into skills update and init
 const JOB_SKILLS_MAP = {
     SAM: samuraiSkills.getSamuraiSkills,
+    RDM: redMageSkill.getRedMageSkills,
 };
 
 const JOB_PRIORITY_MAP = {
     SAM: samuraiPriority.getSamuraiPriority,
+    RDM: redMagePriority.getRedMagePriority,
 };
 
 const JOB_COMBOS_MAP = {
@@ -50,7 +58,7 @@ export const setSkillsForJob = newJob => {
         view.renderSkill(
             skillId,
             skill.css || skill.text,
-            isComboStarter(skillId) ? skill.text : null,
+            selectors.isComboStarter(skillId) ? skill.text : null,
             skill.isSmall
         );
     }
@@ -94,7 +102,7 @@ const updatePreviousSkill = (skillId, targetId, flags) => {
 };
 
 export const updateSkills = (skillId, targetId, flags) => {
-    const skill = selectors.getSkills()[skillId];
+    const skill = selectors.getSkill(skillId);
     if (skill) {
         if (selectors.isComboBreaker(skillId)) {
             updatePreviousSkill(skillId, targetId, flags);
@@ -119,7 +127,10 @@ export const updateSkills = (skillId, targetId, flags) => {
 
 const isMiss = flags => flags.endsWith(1);
 
-const getPriority = () => JOB_PRIORITY_MAP[selectors.getJob()]();
+const getPriority = () =>
+    (JOB_PRIORITY_MAP[selectors.getJob()] &&
+        JOB_PRIORITY_MAP[selectors.getJob()]()) ||
+    EMPTY_PRIORITY;
 
 export const showSkills = () => {
     view.hideSkills(selectors.getSkills());

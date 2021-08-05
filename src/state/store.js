@@ -20,6 +20,7 @@ const state = {
     targetHp: null,
     targetId: null,
     groupDps: null,
+    enemies: {},
 };
 
 export const getState = () => state;
@@ -132,3 +133,15 @@ export const setTargetId = targetId => {
 export const setEncounterDps = groupDps => {
     state.groupDps = groupDps;
 };
+
+export const updateEnemy = (enemyId, enemy) => {
+    state.enemies[enemyId] = enemy;
+}
+
+export const removeEnemy = enemyId => {
+    delete state.enemies[enemyId];
+}
+
+export const resetEnemies = () => {
+    state.enemies = {};
+}
