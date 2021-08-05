@@ -1,10 +1,26 @@
 import * as selectors from '../state/selectors';
 import * as store from '../state/store';
 import * as skills from '../service/skills';
+import {contains} from './functional-helper';
+import {PET_NAMES} from '../config';
 
 export const onLogLine = e => {
     const line = e.line;
     const type = line[0];
+    if (type === '03' && line[4] === '0' && !contains(line[3], PET_NAMES)) {
+        if (!selectors.isEnemy(line[2])) {
+            store.updateEnemy(line[2], {
+                id: line[2],
+                x: line[17],
+                y: line[18],
+                z: line[19],
+            });
+        }
+    }
+
+    if (type === '04') {
+        store.removeEnemy(line[2]);
+    }
 
     if (type === '26' || type === '30') {
         const effectId = line[2];

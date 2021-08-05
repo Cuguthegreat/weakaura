@@ -1,12 +1,12 @@
 import * as samuraiSkills from '../jobs/skills/samurai-skills';
 import * as selectors from '../state/selectors';
 import * as store from '../state/store';
-import {BASE_GCD, KILO} from '../weakaura';
 import * as view from '../view/view';
 import * as samuraiPriority from '../jobs/priority/samurai-priority';
 import {contains} from './functional-helper';
 import * as redMageSkill from '../jobs/skills/red-mage-skills';
 import * as redMagePriority from '../jobs/priority/red-mage-priority';
+import {BASE_GCD, KILO} from '../config';
 
 const EMPTY_PRIORITY = {
     getNextSkills: () => [],

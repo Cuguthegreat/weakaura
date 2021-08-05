@@ -1,6 +1,6 @@
 import * as selectors from '../../state/selectors';
-import {BASE_GCD, KILO} from '../../weakaura';
 import {contains, containsAny} from '../../service/functional-helper';
+import {BASE_GCD, KILO} from '../../config';
 
 export const getSamuraiPriority = () => ({
     getGCD,

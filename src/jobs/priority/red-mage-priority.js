@@ -1,6 +1,6 @@
 import * as selectors from '../../state/selectors';
-import {BASE_GCD} from '../../weakaura';
 import {contains} from '../../service/functional-helper';
+import {BASE_GCD} from '../../config';
 
 export const getRedMagePriority = () => ({
     getGCD,

@@ -2,25 +2,11 @@ import * as store from '../state/store';
 import * as selectors from '../state/selectors';
 import * as skills from './skills';
 import {contains} from './functional-helper';
+import {PET_NAMES} from '../config';
 
-const PET_NAMES = [
-    'Emerald Carbuncle',
-    'Topaz Carbuncle',
-    'Ifrit-Egi',
-    'Titan-Egi',
-    'Garuda-Egi',
-    'Eos',
-    'Selene',
-    'Rook Autoturret',
-    'Bishop Autoturret',
-    'Demi-Bahamut',
-    'Demi-Phoenix',
-    'Seraph',
-    'Moonstone Carbuncle',
-    'Esteem',
-    'Automaton Queen',
-    'Bunshin',
-];
+export function onChangePrimaryPlayer() {
+    store.resetEnemies();
+}
 
 export const onCombatData = e => {
     if (!e.isActive) {
@@ -35,16 +21,18 @@ export const onEnmityTargetData = e => {
     const targetId = target && e.Target.ID;
     if (target && !target.job && !contains(target.name, PET_NAMES)) {
         store.setTargetHp(target.CurrentHP);
-        if (target.CurrentHP > 0) {
-            !selectors.isEnemy(targetId) &&
+
+        if (selectors.isEnemy(targetId)) {
+            if (target.CurrentHP > 0) {
                 store.updateEnemy(targetId, {
                     id: targetId,
                     x: target.PosX,
                     y: target.PosY,
                     z: target.PosZ,
                 });
-        } else {
-            store.removeEnemy(targetId);
+            } else {
+                store.removeEnemy(targetId);
+            }
         }
     }
 

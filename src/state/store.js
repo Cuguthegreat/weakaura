@@ -136,12 +136,12 @@ export const setEncounterDps = groupDps => {
 
 export const updateEnemy = (enemyId, enemy) => {
     state.enemies[enemyId] = enemy;
-}
+};
 
 export const removeEnemy = enemyId => {
     delete state.enemies[enemyId];
-}
+};
 
 export const resetEnemies = () => {
     state.enemies = {};
-}
+};

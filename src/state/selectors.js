@@ -1,6 +1,6 @@
 import {getState} from './store.js';
 import {contains} from '../service/functional-helper';
-import {KILO} from '../weakaura';
+import {KILO} from '../config';
 
 export const getJob = () => getState().job;
 
