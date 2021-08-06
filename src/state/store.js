@@ -17,10 +17,10 @@ const state = {
     castingId: null,
     onCooldown: [],
     dots: {},
-    targetHp: null,
-    targetId: null,
+    target: {},
     groupDps: null,
     enemies: {},
+    targetMode: null
 };
 
 export const getState = () => state;
@@ -111,6 +111,7 @@ export const removeOnCooldown = skillId => {
     state.onCooldown = state.onCooldown.filter(cdId => cdId !== skillId);
 };
 
+// TODO this makes no sense
 export const addDot = (skillId, targetId, effectId) => {
     state.dots = {
         ...state.dots,
@@ -123,11 +124,11 @@ export const removeDot = skillId => {
 };
 
 export const setTargetHp = targetHp => {
-    state.targetHp = targetHp;
+    state.target.hp = targetHp;
 };
 
-export const setTargetId = targetId => {
-    state.targetId = targetId;
+export const setTarget = target => {
+    state.target = target;
 };
 
 export const setEncounterDps = groupDps => {
@@ -145,3 +146,7 @@ export const removeEnemy = enemyId => {
 export const resetEnemies = () => {
     state.enemies = {};
 };
+
+export const setTargetMode = targetMode => {
+    state.targetMode = targetMode;
+}

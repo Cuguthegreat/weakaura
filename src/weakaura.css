@@ -1,3 +1,28 @@
+#st-button {
+    bottom: 0;
+    left: 400px;
+}
+
+#aoe-button {
+    position: absolute;
+    bottom: 0;
+    right: 400px;
+}
+
+.button {
+    width: 150px;
+    border: 1px solid black;
+}
+
+.button--active {
+    background: lawngreen;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.button,
 .skill {
     position: absolute;
     color: white;
@@ -6,6 +31,10 @@
     -webkit-text-stroke-color: black;
     -webkit-text-stroke-width: 2px;
     z-index: 1;
+}
+
+.skill {
+    pointer-events: none;
 }
 
 .skill--small {

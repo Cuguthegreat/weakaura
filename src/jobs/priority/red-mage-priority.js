@@ -16,7 +16,9 @@ const getNextSkills = () => {
     const needsWhite = whiteMana <= blackMana && whiteMana < 80;
     const needsMana = needsBlack || needsWhite;
     const dualcast = canDualcast();
-    const isAoE = includeMultiTarget();
+    const isAoE =
+        (affectsMultiTarget() && !selectors.isSingleTargetMode()) ||
+        selectors.isMultiTargetMode();
     const availableCombos = getAvailableCombos() || [];
     const isCombo = availableCombos.length > 0;
     const level = selectors.getLevel();
@@ -36,7 +38,7 @@ const getNextSkills = () => {
     ];
 
     const multiTarget = [
-        ...pushIf(dualcast, '1D5B'),
+        ...pushIf(dualcast, '1D55'),
         ...pushIf(!dualcast && needsMana, '408C'),
         ...pushIf(!dualcast && needsMana, '408D'),
         ...pushIf(!needsMana, '1D6A'),
@@ -63,9 +65,11 @@ const getNextSkills = () => {
         ),
     ];
 
-    return [...globalCooldown, ...cooldowns].filter(
+    const priority = [...globalCooldown, ...cooldowns].filter(
         skillId => selectors.getSkill(skillId).level <= level
     );
+
+    return priority.length > 0 ? priority : selectors.getComboStarter();
 };
 
 const pushAllIf = (condition, skillIds) => (condition ? skillIds : []);
@@ -75,9 +79,9 @@ const pushIf = (condition, skillId) => (condition ? [skillId] : []);
 const getAvailableCombos = () =>
     selectors.getPreviousSkill() && selectors.getPreviousSkill().combos;
 
-const includeMultiTarget = () => {
+const affectsMultiTarget = () => {
     const enemies = selectors.getEnemies();
-    const target = enemies[selectors.getTargetId()];
+    const target = selectors.getTarget();
 
     if (!target) {
         return false;
@@ -114,7 +118,7 @@ const MANA_BY_SPELL = {
     '1D51': {blackMana: 11, whiteMana: 0},
     '1D56': {blackMana: 9, whiteMana: 0},
     '1D53': {blackMana: 0, whiteMana: 11},
-    '1D5B': {blackMana: 3, whiteMana: 3},
+    '1D55': {blackMana: 3, whiteMana: 3},
     '408C': {blackMana: 7, whiteMana: 0},
     '408D': {blackMana: 0, whiteMana: 7},
 };

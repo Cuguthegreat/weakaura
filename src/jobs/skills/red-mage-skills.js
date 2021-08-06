@@ -44,12 +44,13 @@ const RED_MAGE_SKILLS = {
         text: '7',
         cooldown: 25,
     },
-    '1D5B': {
+    '1D55': {
         name: 'Scatter',
         level: '15',
         text: 'a1',
         css: '1',
         gcd: true,
+        isSmall: true,
     },
     '408C': {
         name: 'Verthunder II',
@@ -104,6 +105,7 @@ const RED_MAGE_SKILLS = {
         text: 's6',
         buff: ['4d6'],
         isSmall: true,
+        cooldown: 55
     },
     '1D50': {
         name: 'Riposte',
@@ -136,7 +138,7 @@ const RED_MAGE_COMBO = {
         '1D56',
         '1D53',
         '1D57',
-        '1D5B',
+        '1D55',
         '408C',
         '408D',
         '1D67',

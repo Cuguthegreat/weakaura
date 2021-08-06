@@ -19,26 +19,23 @@ export const onCombatData = e => {
 export const onEnmityTargetData = e => {
     const target = e.Target;
     const targetId = target && e.Target.ID;
-    if (target && !target.job && !contains(target.name, PET_NAMES)) {
-        store.setTargetHp(target.CurrentHP);
-
-        if (selectors.isEnemy(targetId)) {
-            if (target.CurrentHP > 0) {
-                store.updateEnemy(targetId, {
-                    id: targetId,
-                    x: target.PosX,
-                    y: target.PosY,
-                    z: target.PosZ,
-                });
-            } else {
-                store.removeEnemy(targetId);
-            }
-        }
+    if (!targetId) {
+        return;
     }
 
-    if (targetId && selectors.getTargetId() !== targetId) {
-        store.setTargetId(targetId);
+    if (selectors.hasTargetChanges(target)) {
+        store.setTarget({
+            id: targetId,
+            x: target.PosX,
+            y: target.PosZ,
+            z: target.PosY,
+            hp: target.CurrentHP,
+        });
         // TODO clean this up
         selectors.getSkills() && skills.showSkills();
+    }
+
+    if (!target.job && !contains(target.name, PET_NAMES)) {
+        store.setTargetHp(target.CurrentHP);
     }
 };

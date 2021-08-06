@@ -2,6 +2,7 @@ import '../../../resources/common';
 import * as playerChange from './service/player-change';
 import * as logLine from './service/log-line';
 import * as combatData from './service/combat-data';
+import * as view from './view/view';
 
 window.addOverlayListener('onPlayerChangedEvent', e => {
     playerChange.onPlayerChanged(e);
@@ -22,3 +23,5 @@ window.addOverlayListener('EnmityTargetData', e => {
 window.addOverlayListener('ChangePrimaryPlayer', e => {
     combatData.onChangePrimaryPlayer();
 });
+
+view.renderButtons()

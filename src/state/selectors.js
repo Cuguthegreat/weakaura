@@ -90,10 +90,29 @@ export const isCasting = () => getState().castingId !== null;
 
 export const isOnCooldown = skillId => contains(skillId, getState().onCooldown);
 
-export const willTargetDieWithin = seconds =>
-    getState().targetHp < seconds * getState().groupDps;
+export const willTargetDieWithin = seconds => {
+    const target = getState().target;
 
-export const getTargetId = () => getState().targetId;
+    return target && getState().target.hp < seconds * getState().groupDps;
+};
+
+export const getTarget = () => getState().target;
+
+export function hasTargetChanges(newTarget) {
+    const oldTarget = getTarget().target;
+
+    if(!newTarget || !oldTarget) {
+        return true;
+    }
+
+    return (
+        newTarget.id !== oldTarget.id ||
+        newTarget.x !== oldTarget.x ||
+        newTarget.y !== oldTarget.y ||
+        newTarget.z !== oldTarget.z ||
+        newTarget.hp !== oldTarget.hp
+    );
+}
 
 export const triggersGCD = skillId =>
     getSkill(skillId) && getSkill(skillId).gcd;
@@ -106,3 +125,7 @@ export const isInstantCast = skillId => getCastTime(skillId) === 0;
 export const isEnemy = id => contains(id, Object.keys(getState().enemies));
 
 export const getEnemies = () => getState().enemies;
+
+export const isMultiTargetMode = () => getState().targetMode === 'AoE';
+
+export const isSingleTargetMode = () => getState().targetMode === 'ST';

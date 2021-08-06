@@ -1,22 +1,24 @@
 import * as selectors from '../state/selectors';
 import * as store from '../state/store';
 import * as skills from '../service/skills';
+import {clearScreen} from '../view/view';
+import * as view from '../view/view';
 import {contains} from './functional-helper';
-import {PET_NAMES} from '../config';
+import {isEnemy} from '../state/selectors';
+
+const updateEnemy = ({id, x, y, z, hp}) => {
+    if (hp >= 0) {
+        store.updateEnemy(id, {id, x, y, z});
+    } else {
+        store.removeEnemy(id);
+    }
+
+    skills.showSkills();
+};
 
 export const onLogLine = e => {
     const line = e.line;
     const type = line[0];
-    if (type === '03' && line[4] === '0' && !contains(line[3], PET_NAMES)) {
-        if (!selectors.isEnemy(line[2])) {
-            store.updateEnemy(line[2], {
-                id: line[2],
-                x: line[17],
-                y: line[18],
-                z: line[19],
-            });
-        }
-    }
 
     if (type === '04') {
         store.removeEnemy(line[2]);
@@ -43,7 +45,6 @@ export const onLogLine = e => {
     }
 
     const skillId = line[4];
-
     if (selectors.isPlayer(line[3]) && selectors.isSkill(skillId)) {
         if (type === '21' || type === '22') {
             skills.onSkillUsage(skillId);
@@ -61,22 +62,34 @@ export const onLogLine = e => {
 
         if (type === '23') {
             store.setCastingId(null);
+            view.clearScreen()
             skills.showSkills();
         }
     }
 
-    const targetId = line[6];
-    const targetCurrentHp = line[24];
-    if (selectors.isEnemy(targetId)) {
-        if (targetCurrentHp > 0) {
-            store.updateEnemy(targetId, {
-                id: targetId,
-                x: line[40],
-                y: line[41],
-                z: line[42],
-            });
-        } else {
-            store.removeEnemy(targetId);
-        }
+    if (type === '25') {
+        store.removeEnemy(line[2]);
+    }
+
+    if (type === '21' || type === '22') {
+        const casterId = line[2];
+        const targetId = line[6];
+
+        casterId.startsWith('4') && updateEnemy({
+            id: casterId,
+            x: line[40],
+            y: line[41],
+            z: line[42],
+            hp: line[34],
+        });
+
+        targetId.startsWith('4') && updateEnemy({
+            id: targetId,
+            x: line[30],
+            y: line[31],
+            z: line[32],
+            hp: line[24],
+        });
     }
 };
+

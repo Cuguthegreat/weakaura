@@ -1,3 +1,6 @@
+import {setTargetHp} from '../state/store';
+import * as store from '../state/store';
+
 export const showSkill = (skillId, skillText) => {
     const element = document.getElementById(skillId);
 
@@ -27,12 +30,17 @@ export const renderSkill = (skillId, css, text, isSmall) => {
     getContainer().appendChild(node);
 };
 
-const clearScreen = ctx => {
+export const clearScreen = () => {
+    clearTimeout(timeout);
     clearInterval(interval);
-    ctx.clearRect(0, 0, 300, 300);
+    getCtx().clearRect(0, 0, 300, 300);
 };
 
+const getCtx = () => document.getElementById('canvas').getContext('2d');
+
 let interval;
+let timeout;
+
 const RADIUS = 75;
 
 export const renderProgressCircle = (duration, castTime) => {
@@ -40,10 +48,10 @@ export const renderProgressCircle = (duration, castTime) => {
     let oldElapsedTime = 0;
     let elapsedTime = 0;
 
-    const ctx = document.getElementById('canvas').getContext('2d');
+    const ctx = getCtx();
 
-    setTimeout(() => {
-        clearScreen(ctx);
+    timeout = setTimeout(() => {
+        clearScreen();
 
         ctx.beginPath();
         ctx.strokeStyle = 'darkgreen';
@@ -69,7 +77,7 @@ export const renderProgressCircle = (duration, castTime) => {
                 150,
                 RADIUS,
                 -Math.PI / 2 + (2 * Math.PI * oldElapsedTime) / duration,
-                -Math.PI / 2 + (2 * Math.PI * elapsedTime) / duration
+                -Math.PI / 2 + (2 * Math.PI * elapsedTime) / duration,
             );
             ctx.stroke();
             if (elapsedTime >= duration) {
@@ -77,7 +85,51 @@ export const renderProgressCircle = (duration, castTime) => {
             }
             oldElapsedTime = elapsedTime;
         }, 10);
-    }, Math.max(castTime -  500, 0));
+    }, Math.max(castTime - 500, 0));
+};
+
+const onAoEButtonClick = () => {
+    store.setTargetMode('AoE');
+};
+
+const onSTButtonClick = () => {
+    store.setTargetMode('ST')
+};
+
+const onContextmenu = () => {
+    store.setTargetMode(null);
+};
+
+export const renderButtons = () => {
+    const aoeButton = document.createElement('button');
+    aoeButton.id = 'aoe-button';
+    aoeButton.className = 'button';
+    aoeButton.innerText = 'AoE';
+    aoeButton.onclick = () => {
+        onAoEButtonClick();
+        stButton.className = 'button'
+        aoeButton.className = 'button button--active'
+    };
+    aoeButton.oncontextmenu = () => {
+        onContextmenu();
+        aoeButton.className = 'button'
+    };
+    getContainer().appendChild(aoeButton);
+
+    const stButton = document.createElement('button');
+    stButton.id = 'st-button';
+    stButton.className = 'button';
+    stButton.innerText = 'ST';
+    stButton.onclick = () => {
+        onSTButtonClick();
+        aoeButton.className = 'button'
+        stButton.className = 'button button--active'
+    };
+    stButton.oncontextmenu = () => {
+        onContextmenu();
+        stButton.className = 'button'
+    };
+    getContainer().appendChild(stButton);
 };
 
 export const getContainer = () => document.getElementById('container');
