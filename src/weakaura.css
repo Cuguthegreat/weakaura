@@ -1,11 +1,10 @@
 #st-button {
-    bottom: 0;
+    bottom: 25px;
     left: 400px;
 }
 
 #aoe-button {
-    position: absolute;
-    bottom: 0;
+    bottom: 25px;
     right: 400px;
 }
 

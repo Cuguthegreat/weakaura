@@ -43,6 +43,15 @@ let timeout;
 
 const RADIUS = 75;
 
+const drawCircle = (color, lineWidth) => {
+    const ctx = getCtx();
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = lineWidth;
+    ctx.arc(150, 150, RADIUS, 0, 2 * Math.PI);
+    ctx.stroke();
+};
+
 export const renderProgressCircle = (duration, castTime) => {
     const start = performance.now();
     let oldElapsedTime = 0;
@@ -52,18 +61,8 @@ export const renderProgressCircle = (duration, castTime) => {
 
     timeout = setTimeout(() => {
         clearScreen();
-
-        ctx.beginPath();
-        ctx.strokeStyle = 'darkgreen';
-        ctx.lineWidth = 6;
-        ctx.arc(150, 150, RADIUS, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.strokeStyle = 'lawngreen';
-        ctx.lineWidth = 3;
-        ctx.arc(150, 150, RADIUS, -Math.PI / 2, -Math.PI / 2 + 2 * Math.PI);
-        ctx.stroke();
+        drawCircle('darkgreen', 6);
+        drawCircle('lawngreen', 3);
 
         ctx.beginPath();
         ctx.strokeStyle = 'darkgreen';
@@ -77,7 +76,7 @@ export const renderProgressCircle = (duration, castTime) => {
                 150,
                 RADIUS,
                 -Math.PI / 2 + (2 * Math.PI * oldElapsedTime) / duration,
-                -Math.PI / 2 + (2 * Math.PI * elapsedTime) / duration,
+                -Math.PI / 2 + (2 * Math.PI * elapsedTime) / duration
             );
             ctx.stroke();
             if (elapsedTime >= duration) {
@@ -88,48 +87,24 @@ export const renderProgressCircle = (duration, castTime) => {
     }, Math.max(castTime - 500, 0));
 };
 
-const onAoEButtonClick = () => {
-    store.setTargetMode('AoE');
-};
+const buttons = [];
 
-const onSTButtonClick = () => {
-    store.setTargetMode('ST')
-};
-
-const onContextmenu = () => {
-    store.setTargetMode(null);
-};
-
-export const renderButtons = () => {
-    const aoeButton = document.createElement('button');
-    aoeButton.id = 'aoe-button';
-    aoeButton.className = 'button';
-    aoeButton.innerText = 'AoE';
-    aoeButton.onclick = () => {
-        onAoEButtonClick();
-        stButton.className = 'button'
-        aoeButton.className = 'button button--active'
+export const renderButton = ({id, text, onclick, oncontextmenu}) => {
+    const button = document.createElement('button');
+    buttons.push(button);
+    button.id = id;
+    button.className = 'button';
+    button.innerText = text;
+    button.onclick = () => {
+        onclick();
+        buttons.forEach(button => (button.className = 'button'));
+        button.className = 'button button--active';
     };
-    aoeButton.oncontextmenu = () => {
-        onContextmenu();
-        aoeButton.className = 'button'
+    button.oncontextmenu = () => {
+        oncontextmenu();
+        button.className = 'button';
     };
-    getContainer().appendChild(aoeButton);
-
-    const stButton = document.createElement('button');
-    stButton.id = 'st-button';
-    stButton.className = 'button';
-    stButton.innerText = 'ST';
-    stButton.onclick = () => {
-        onSTButtonClick();
-        aoeButton.className = 'button'
-        stButton.className = 'button button--active'
-    };
-    stButton.oncontextmenu = () => {
-        onContextmenu();
-        stButton.className = 'button'
-    };
-    getContainer().appendChild(stButton);
+    getContainer().appendChild(button);
 };
 
 export const getContainer = () => document.getElementById('container');
