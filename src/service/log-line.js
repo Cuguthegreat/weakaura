@@ -1,10 +1,7 @@
 import * as selectors from '../state/selectors';
 import * as store from '../state/store';
 import * as skills from '../service/skills';
-import {clearScreen} from '../view/view';
 import * as view from '../view/view';
-import {contains} from './functional-helper';
-import {isEnemy} from '../state/selectors';
 
 const updateEnemy = ({id, x, y, z, hp}) => {
     if (hp >= 0) {

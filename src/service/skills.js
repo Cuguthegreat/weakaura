@@ -6,13 +6,13 @@ import * as samuraiPriority from '../jobs/priority/samurai-priority';
 import {contains} from './functional-helper';
 import * as redMageSkills from '../jobs/skills/red-mage-skills';
 import * as redMagePriority from '../jobs/priority/red-mage-priority';
-import {BASE_GCD, KILO} from '../config';
+import {KILO} from '../config';
 import * as scholarSkills from '../jobs/skills/scholar-skills';
 import * as scholarPriority from '../jobs/priority/scholar-priority';
 
 const EMPTY_PRIORITY = {
     getNextSkills: () => [],
-    getGCD: () => BASE_GCD,
+    getGCDModifier: () => 1,
 };
 
 // TODO Split into skills update and init
@@ -141,18 +141,18 @@ export const showSkills = () => {
 };
 
 export const onSkillUsage = skillId => {
-    const gcd = getPriority().getGCD();
+    const gcdModifier = getPriority().getGCDModifier();
     if (selectors.triggersGCD(skillId) && selectors.isInstantCast(skillId)) {
-        view.renderProgressCircle(gcd, 0);
+        view.renderProgressCircle(gcdModifier * selectors.getGCD(skillId), 0);
     }
 };
 
 export const onStartsCasting = skillId => {
-    const gcd = getPriority().getGCD();
+    const gcdModifier = getPriority().getGCDModifier();
     if (selectors.triggersGCD(skillId)) {
         view.renderProgressCircle(
-            gcd,
-            (gcd / BASE_GCD) * selectors.getCastTime(skillId)
+            gcdModifier * selectors.getGCD(skillId),
+            gcdModifier * selectors.getCastTime(skillId)
         );
     }
 };

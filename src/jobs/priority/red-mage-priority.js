@@ -1,13 +1,12 @@
 import * as selectors from '../../state/selectors';
 import {contains, pushAllIf, pushIf} from '../../service/functional-helper';
-import {BASE_GCD} from '../../config';
 
 export const getRedMagePriority = () => ({
-    getGCD,
+    getGCDModifier,
     getNextSkills,
 });
 
-const getGCD = () => BASE_GCD;
+const getGCDModifier = () => 1;
 
 const getNextSkills = () => {
     const blackMana = getBlackMana();

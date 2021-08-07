@@ -1,5 +1,4 @@
 export const KILO = 1000;
-export const BASE_GCD = 2.5 * KILO;
 export const PET_NAMES = [
     'Emerald Carbuncle',
     'Topaz Carbuncle',

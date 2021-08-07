@@ -86,7 +86,7 @@ export const renderProgressCircle = (duration, castTime) => {
             );
             ctx.stroke();
             if (elapsedTime >= duration) {
-                clearScreen(ctx);
+                clearScreen();
             }
             oldElapsedTime = elapsedTime;
         }, 10);

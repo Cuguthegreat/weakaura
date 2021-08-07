@@ -1,13 +1,12 @@
-import {BASE_GCD} from '../../config';
 import * as selectors from '../../state/selectors';
 import {pushIf} from '../../service/functional-helper';
 
 export const getScholarPriority = () => ({
-    getGCD,
+    getGCDModifier,
     getNextSkills,
 });
 
-const getGCD = () => BASE_GCD;
+const getGCDModifier = () => 1;
 
 const getNextSkills = () => {
     const level = selectors.getLevel();

@@ -118,6 +118,8 @@ export function hasTargetChanges(newTarget) {
     );
 }
 
+export const getGCD = skillId => getSkill(skillId).gcd;
+
 export const triggersGCD = skillId =>
     getSkill(skillId) && getSkill(skillId).gcd;
 

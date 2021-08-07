@@ -1,20 +1,20 @@
 import * as selectors from '../../state/selectors';
 import {contains, containsAny} from '../../service/functional-helper';
-import {BASE_GCD, KILO} from '../../config';
+import {KILO} from '../../config';
 
 export const getSamuraiPriority = () => ({
-    getGCD,
+    getGCDModifier,
     getNextSkills,
 });
 
-const GCD_MODIFIER = 0.98;
+const SKILL_SPEED_MODIFIER = 0.98;
 const TEN_PERCENT_MODIFIER = 0.9;
 const THIRTEEN_PERCENT_MODIFIER = 0.87;
 
-const getGCD = () =>
+const getGCDModifier = () =>
     selectors.isBuffActive('513')
-        ? Math.round(BASE_GCD * GCD_MODIFIER * TEN_PERCENT_MODIFIER)
-        : Math.round(BASE_GCD * GCD_MODIFIER);
+        ? Math.round(SKILL_SPEED_MODIFIER * TEN_PERCENT_MODIFIER)
+        : Math.round( SKILL_SPEED_MODIFIER);
 
 const getNextSkills = () => {
     let priority = [...getSamuraiSkillPriority(), ...getSamuraiUtility()];
