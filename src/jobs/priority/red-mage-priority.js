@@ -6,7 +6,8 @@ export const getRedMagePriority = () => ({
     getNextSkills,
 });
 
-const getGCDModifier = () => 1;
+const getGCDModifier = skillId =>
+    contains(skillId, ['1D67', '1D68', '1D69', '1D6A']) ? 1 : 0.96;
 
 const getNextSkills = () => {
     const blackMana = getBlackMana();
@@ -38,8 +39,8 @@ const getNextSkills = () => {
 
     const multiTarget = [
         ...pushIf(dualcast, '1D55'),
-        ...pushIf(!dualcast && needsMana, '408C'),
-        ...pushIf(!dualcast && needsMana, '408D'),
+        ...pushIf(!dualcast && needsBlack, '408C'),
+        ...pushIf(!dualcast && needsWhite, '408D'),
         ...pushIf(!needsMana, '1D6A'),
     ];
 
@@ -59,7 +60,7 @@ const getNextSkills = () => {
             '1D5D'
         ),
         ...pushIf(
-            !selectors.isCasting() && !selectors.isOnCooldown('1D5E'),
+            !isAoE && !selectors.isCasting() && !selectors.isOnCooldown('1D5E'),
             '1D5E'
         ),
     ];

@@ -141,7 +141,7 @@ export const showSkills = () => {
 };
 
 export const onSkillUsage = skillId => {
-    const gcdModifier = getPriority().getGCDModifier();
+    const gcdModifier = getPriority().getGCDModifier(skillId);
 
     if (selectors.triggersGCD(skillId) && selectors.isInstantCast(skillId)) {
         view.renderProgressCircle(
