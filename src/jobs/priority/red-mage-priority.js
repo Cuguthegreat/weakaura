@@ -1,5 +1,5 @@
 import * as selectors from '../../state/selectors';
-import {contains} from '../../service/functional-helper';
+import {contains, pushAllIf, pushIf} from '../../service/functional-helper';
 import {BASE_GCD} from '../../config';
 
 export const getRedMagePriority = () => ({
@@ -71,10 +71,6 @@ const getNextSkills = () => {
 
     return priority.length > 0 ? priority : selectors.getComboStarter();
 };
-
-const pushAllIf = (condition, skillIds) => (condition ? skillIds : []);
-
-const pushIf = (condition, skillId) => (condition ? [skillId] : []);
 
 const getAvailableCombos = () =>
     selectors.getPreviousSkill() && selectors.getPreviousSkill().combos;

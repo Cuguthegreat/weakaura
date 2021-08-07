@@ -21,6 +21,10 @@ export const isPlayer = name => name && name === getState().name;
 
 export const getJobDetail = () => getState().jobDetail;
 
+export const isHealer = () => {
+    return getState().job === 'SCH';
+};
+
 export const getPreviousSkillId = () => getState().previousSkillId;
 
 export const getPreviousSkillTargetId = () => getState().previousSkillTargetId;

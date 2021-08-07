@@ -21,6 +21,10 @@
     cursor: pointer;
 }
 
+.button--hidden {
+    opacity: 0;
+}
+
 .button,
 .skill {
     position: absolute;
@@ -86,9 +90,29 @@
     left: 715px;
 }
 
+.skill--a3 {
+    top: 455px;
+    left: 740px;
+}
+
 .skill--a4 {
     top: 385px;
     left: 570px;
+}
+
+.skill--a5 {
+    top: 455px;
+    left: 545px;
+}
+
+.skill--a6 {
+    top: 525px;
+    left: 570px;
+}
+
+.skill--a7 {
+    top: 525px;
+    left: 715px;
 }
 
 .skill--s1 {

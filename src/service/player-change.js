@@ -1,6 +1,7 @@
 import * as store from '../state/store';
 import * as selectors from '../state/selectors';
 import * as skills from './skills';
+import * as view from '../view/view';
 
 const haveJobDetailChanged = newJobDetail => {
     const oldJobDetail = selectors.getJobDetail();
@@ -35,15 +36,17 @@ export const onPlayerChanged = e => {
 
     if (newJobDetails && haveJobDetailChanged(newJobDetails)) {
         store.setJobDetail(newJobDetails);
+        if (selectors.isHealer()) {
+            view.hideButtons();
+        } else {
+            view.showButtons();
+        }
         skills.showSkills();
     }
 };
 
 const cleanUpOldClass = () => {
     for (let skillId in selectors.getSkills()) {
-        // TODO move to view
-        const node = document.getElementById(skillId);
-
-        node != null && node.remove();
+        view.removeSkill(skillId)
     }
 };

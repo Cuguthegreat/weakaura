@@ -4,9 +4,11 @@ import * as store from '../state/store';
 import * as view from '../view/view';
 import * as samuraiPriority from '../jobs/priority/samurai-priority';
 import {contains} from './functional-helper';
-import * as redMageSkill from '../jobs/skills/red-mage-skills';
+import * as redMageSkills from '../jobs/skills/red-mage-skills';
 import * as redMagePriority from '../jobs/priority/red-mage-priority';
 import {BASE_GCD, KILO} from '../config';
+import * as scholarSkills from '../jobs/skills/scholar-skills';
+import * as scholarPriority from '../jobs/priority/scholar-priority';
 
 const EMPTY_PRIORITY = {
     getNextSkills: () => [],
@@ -16,12 +18,14 @@ const EMPTY_PRIORITY = {
 // TODO Split into skills update and init
 const JOB_SKILLS_MAP = {
     SAM: samuraiSkills.getSamuraiSkills,
-    RDM: redMageSkill.getRedMageSkills,
+    RDM: redMageSkills.getRedMageSkills,
+    SCH: scholarSkills.getScholarSkills
 };
 
 const JOB_PRIORITY_MAP = {
     SAM: samuraiPriority.getSamuraiPriority,
     RDM: redMagePriority.getRedMagePriority,
+    SCH: scholarPriority.getScholarPriority,
 };
 
 export const setSkillsForJob = newJob => {

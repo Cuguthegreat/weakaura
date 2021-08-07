@@ -105,7 +105,7 @@ const RED_MAGE_SKILLS = {
         text: 's6',
         buff: ['4d6'],
         isSmall: true,
-        cooldown: 55
+        cooldown: 55,
     },
     '1D50': {
         name: 'Riposte',

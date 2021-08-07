@@ -30,6 +30,12 @@ export const renderSkill = (skillId, css, text, isSmall) => {
     getContainer().appendChild(node);
 };
 
+export const removeSkill = skillId => {
+    const node = document.getElementById(skillId);
+
+    node != null && node.remove();
+}
+
 export const clearScreen = () => {
     clearTimeout(timeout);
     clearInterval(interval);
@@ -106,5 +112,13 @@ export const renderButton = ({id, text, onclick, oncontextmenu}) => {
     };
     getContainer().appendChild(button);
 };
+
+export const showButtons = () => {
+    buttons.forEach(button => button.className = 'button');
+}
+
+export const hideButtons = () => {
+    buttons.forEach(button => button.className = 'button button--hidden');
+}
 
 export const getContainer = () => document.getElementById('container');
