@@ -59,7 +59,7 @@ export const onLogLine = e => {
 
         if (type === '23') {
             store.setCastingId(null);
-            view.clearScreen()
+            view.clearScreen(true)
             skills.showSkills();
         }
     }

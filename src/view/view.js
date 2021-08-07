@@ -1,6 +1,3 @@
-import {setTargetHp} from '../state/store';
-import * as store from '../state/store';
-
 export const showSkill = (skillId, skillText) => {
     const element = document.getElementById(skillId);
 
@@ -34,10 +31,10 @@ export const removeSkill = skillId => {
     const node = document.getElementById(skillId);
 
     node != null && node.remove();
-}
+};
 
-export const clearScreen = () => {
-    clearTimeout(timeout);
+export const clearScreen = shouldClearTimeout => {
+    shouldClearTimeout && clearTimeout(timeout);
     clearInterval(interval);
     getCtx().clearRect(0, 0, 300, 300);
 };
@@ -58,39 +55,44 @@ const drawCircle = (color, lineWidth) => {
     ctx.stroke();
 };
 
-export const renderProgressCircle = (duration, castTime) => {
+export const renderProgressCircle = duration => {
     const start = performance.now();
     let oldElapsedTime = 0;
     let elapsedTime = 0;
-
     const ctx = getCtx();
 
-    timeout = setTimeout(() => {
-        clearScreen();
-        drawCircle('darkgreen', 6);
-        drawCircle('lawngreen', 3);
+    clearScreen(true);
+    drawCircle('darkgreen', 6);
+    drawCircle('lawngreen', 3);
 
-        ctx.beginPath();
-        ctx.strokeStyle = 'darkgreen';
-        ctx.lineCap = 'butt';
-        ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.strokeStyle = 'darkgreen';
+    ctx.lineCap = 'butt';
+    ctx.lineWidth = 3;
+    interval = setInterval(() => {
+        elapsedTime = performance.now() - start;
+        ctx.arc(
+            150,
+            150,
+            RADIUS,
+            -Math.PI / 2 + (2 * Math.PI * oldElapsedTime) / duration,
+            -Math.PI / 2 + (2 * Math.PI * elapsedTime) / duration
+        );
+        ctx.stroke();
+        if (elapsedTime >= duration) {
+            clearScreen(false);
+        }
+        oldElapsedTime = elapsedTime;
+    }, 10);
+};
 
-        interval = setInterval(() => {
-            elapsedTime = performance.now() - start;
-            ctx.arc(
-                150,
-                150,
-                RADIUS,
-                -Math.PI / 2 + (2 * Math.PI * oldElapsedTime) / duration,
-                -Math.PI / 2 + (2 * Math.PI * elapsedTime) / duration
-            );
-            ctx.stroke();
-            if (elapsedTime >= duration) {
-                clearScreen();
-            }
-            oldElapsedTime = elapsedTime;
-        }, 10);
-    }, Math.max(castTime - 500, 0));
+export const renderProgressCircleAsync = (duration, castTime) => {
+    const effectiveCastTime = castTime - 500;
+    if (duration > effectiveCastTime) {
+        timeout = setTimeout(() => {
+            renderProgressCircle(duration - effectiveCastTime);
+        }, Math.max(effectiveCastTime, 0));
+    }
 };
 
 const buttons = [];
@@ -99,7 +101,7 @@ export const renderButton = ({id, text, onclick, oncontextmenu}) => {
     const button = document.createElement('button');
     buttons.push(button);
     button.id = id;
-    button.className = 'button';
+    button.className = 'button button--hidden';
     button.innerText = text;
     button.onclick = () => {
         onclick();
@@ -114,11 +116,11 @@ export const renderButton = ({id, text, onclick, oncontextmenu}) => {
 };
 
 export const showButtons = () => {
-    buttons.forEach(button => button.className = 'button');
-}
+    buttons.forEach(button => (button.className = 'button'));
+};
 
 export const hideButtons = () => {
-    buttons.forEach(button => button.className = 'button button--hidden');
-}
+    buttons.forEach(button => (button.className = 'button button--hidden'));
+};
 
 export const getContainer = () => document.getElementById('container');

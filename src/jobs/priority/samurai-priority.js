@@ -13,8 +13,8 @@ const THIRTEEN_PERCENT_MODIFIER = 0.87;
 
 const getGCDModifier = () =>
     selectors.isBuffActive('513')
-        ? Math.round(SKILL_SPEED_MODIFIER * TEN_PERCENT_MODIFIER)
-        : Math.round( SKILL_SPEED_MODIFIER);
+        ? SKILL_SPEED_MODIFIER * TEN_PERCENT_MODIFIER
+        :  SKILL_SPEED_MODIFIER;
 
 const getNextSkills = () => {
     let priority = [...getSamuraiSkillPriority(), ...getSamuraiUtility()];

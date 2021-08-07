@@ -19,7 +19,7 @@ const EMPTY_PRIORITY = {
 const JOB_SKILLS_MAP = {
     SAM: samuraiSkills.getSamuraiSkills,
     RDM: redMageSkills.getRedMageSkills,
-    SCH: scholarSkills.getScholarSkills
+    SCH: scholarSkills.getScholarSkills,
 };
 
 const JOB_PRIORITY_MAP = {
@@ -142,17 +142,20 @@ export const showSkills = () => {
 
 export const onSkillUsage = skillId => {
     const gcdModifier = getPriority().getGCDModifier();
+
     if (selectors.triggersGCD(skillId) && selectors.isInstantCast(skillId)) {
-        view.renderProgressCircle(gcdModifier * selectors.getGCD(skillId), 0);
+        view.renderProgressCircle(
+            Math.round(gcdModifier * selectors.getGCD(skillId))
+        );
     }
 };
 
 export const onStartsCasting = skillId => {
     const gcdModifier = getPriority().getGCDModifier();
     if (selectors.triggersGCD(skillId)) {
-        view.renderProgressCircle(
-            gcdModifier * selectors.getGCD(skillId),
-            gcdModifier * selectors.getCastTime(skillId)
+        view.renderProgressCircleAsync(
+            Math.round(gcdModifier * selectors.getGCD(skillId)),
+            Math.round(gcdModifier * selectors.getCastTime(skillId))
         );
     }
 };
