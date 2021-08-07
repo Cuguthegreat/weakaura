@@ -86,6 +86,22 @@ const SCHOLAR_SKILLS = {
         level: '45',
         text: 'E'
     },
+    '1D8A': {
+        name: 'Lucid Dreaming',
+        level: '24',
+        text: '!F!',
+        css: 'F',
+        buff: '4b4',
+        cooldown: 60,
+    } ,
+    '1D89': {
+        name: 'Swiftcast',
+        level: '18',
+        text: '⍐',
+        css: 'MouseUp',
+        buff: 'a7',
+        cooldown: 60
+    }
 };
 
 const SCHOLAR_COMBO = {

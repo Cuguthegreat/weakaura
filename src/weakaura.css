@@ -150,6 +150,31 @@
     left: 670px;
 }
 
+.skill--Q {
+    top: 625px;
+    left: 555px;
+}
+
+.skill--Z {
+    top: 700px;
+    left: 555px;
+}
+
+.skill--F {
+    top: 625px;
+    left: 700px;
+}
+
+.skill--V {
+    top: 700px;
+    left: 700px;
+}
+
+.skill--MouseUp {
+    top: 320px;
+    right: 420px;
+}
+
 #canvas {
     top: 315px;
     left: 490px;

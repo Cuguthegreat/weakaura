@@ -107,7 +107,7 @@ const RED_MAGE_SKILLS = {
         name: 'Acceleration',
         level: '50',
         text: 's6',
-        buff: ['4d6'],
+        buff: '4d6',
         isSmall: true,
         cooldown: 55,
     },
@@ -123,16 +123,52 @@ const RED_MAGE_SKILLS = {
     '1D59': {
         name: 'Moulinet',
     },
-    '1D52 ': {
+    '1D52': {
         name: 'Corps-A-Corps',
         level: '6',
         text: 'Q',
+        cooldown: 40,
+        isSmall: true,
     },
-    '1D5B ': {
-        name: 'Displacement ',
+    '1D5B': {
+        name: 'Displacement',
         level: '40',
         text: 'Z',
+        cooldown: 35,
+        isSmall: true,
     },
+      '1D5A': {
+        name: 'Vercure',
+        level: '54',
+        castTime: 2000,
+        gcd: 2500,
+    },
+    '1D60': {
+        name: 'Embolden ',
+        level: '58',
+        text: 'V',
+        castTime: 2000,
+        gcd: 2500,
+        buff: '4d7',
+        cooldown: 120,
+        isSmall: true,
+    },
+    '1D8A': {
+        name: 'Lucid Dreaming',
+        level: '24',
+        text: 'F',
+        buff: '4b4',
+        cooldown: 60,
+        isSmall: true,
+    } ,
+    '1D89': {
+        name: 'Swiftcast',
+        level: '18',
+        text: '⍐',
+        css: 'MouseUp',
+        buff: 'a7',
+        cooldown: 60
+    }
 };
 
 const RED_MAGE_COMBO = {

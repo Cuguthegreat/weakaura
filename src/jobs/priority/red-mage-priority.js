@@ -50,24 +50,25 @@ const getNextSkills = () => {
         ...pushAllIf(!isCombo && isAoE, multiTarget),
     ];
 
+    const simpleCooldowns = [
+        '1D5F',
+        '1D5D',
+        '1D60',
+        '1D52',
+        '1D5B',
+        '1D8A',
+        '1D89',
+    ].filter(cd => !selectors.isOnCooldown(cd));
+
     const cooldowns = [
-        ...pushIf(
-            !selectors.isCasting() && !selectors.isOnCooldown('1D5F'),
-            '1D5F'
-        ),
-        ...pushIf(
-            !selectors.isCasting() && !selectors.isOnCooldown('1D5D'),
-            '1D5D'
-        ),
-        ...pushIf(
-            !isAoE && !selectors.isCasting() && !selectors.isOnCooldown('1D5E'),
-            '1D5E'
-        ),
+        ...simpleCooldowns,
+        ...pushIf(!isAoE && !selectors.isOnCooldown('1D5E'), '1D5E'),
     ];
 
-    const priority = [...globalCooldown, ...cooldowns].filter(
-        skillId => selectors.getSkill(skillId).level <= level
-    );
+    const priority = [
+        ...globalCooldown,
+        ...pushAllIf(!selectors.isCasting(), cooldowns),
+    ].filter(skillId => selectors.getSkill(skillId).level <= level);
 
     return priority.length > 0 ? priority : selectors.getComboStarter();
 };

@@ -105,7 +105,7 @@ export const getTarget = () => getState().target;
 export function hasTargetChanges(newTarget) {
     const oldTarget = getTarget().target;
 
-    if(!newTarget || !oldTarget) {
+    if (!newTarget || !oldTarget) {
         return true;
     }
 
@@ -123,8 +123,13 @@ export const getGCD = skillId => getSkill(skillId).gcd;
 export const triggersGCD = skillId =>
     getSkill(skillId) && getSkill(skillId).gcd;
 
-export const getCastTime = skillId =>
-    (getSkill(skillId) && getSkill(skillId).castTime) || 0;
+export const getCastTime = skillId => {
+    if (isBuffActive('a7')) {
+        return 0;
+    }
+
+    return (getSkill(skillId) && getSkill(skillId).castTime) || 0;
+};
 
 export const isInstantCast = skillId => getCastTime(skillId) === 0;
 

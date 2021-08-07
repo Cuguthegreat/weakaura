@@ -11,19 +11,11 @@ const getGCDModifier = () => 1;
 const getNextSkills = () => {
     const level = selectors.getLevel();
     const aetherflowStacks = selectors.getJobDetail().aetherflowStacks;
+    const simpleCooldowns = ['4099', '409A', 'A6', '1D8A', '1D89'].filter(
+        cd => !selectors.isOnCooldown(cd)
+    );
     const cooldowns = [
-        ...pushIf(
-            !selectors.isCasting() && !selectors.isOnCooldown('4099'),
-            '4099'
-        ),
-        ...pushIf(
-            !selectors.isCasting() && !selectors.isOnCooldown('409A'),
-            '409A'
-        ),
-        ...pushIf(
-            !selectors.isCasting() && !selectors.isOnCooldown('A6'),
-            'A6'
-        ),
+        ...simpleCooldowns,
         ...pushIf(
             !selectors.isCasting() &&
                 !selectors.isOnCooldown('A7') &&
@@ -32,7 +24,9 @@ const getNextSkills = () => {
         ),
     ];
 
-    return cooldowns.filter(
-        skillId => selectors.getSkill(skillId).level <= level
-    );
+    return selectors.isCasting()
+        ? ['1D8A']
+        : cooldowns.filter(
+              skillId => selectors.getSkill(skillId).level <= level
+          );
 };
